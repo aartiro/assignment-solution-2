@@ -1,0 +1,68 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/session-cookie-expires: "86500"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "86500"
+    nginx.ingress.kubernetes.io/session-cookie-name: app1_cookie
+  name: app1
+  namespace: app1-ns
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: patho.roche.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
+      - path: /dashboard/app1/overview
+        pathType: Prefix
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
+      - path: /login/
+        pathType: Prefix
+        backend:
+          service:
+            name: random
+            port:
+              number: 18000  #random port for 503 error code
+      - path: /charts/list
+        pathType: Prefix
+        backend:
+          service:
+            name: random
+            port:
+              number: 18000  #random port for 503 error code
+      - path: /dashboard/list
+        pathType: Prefix
+        backend:
+          service:
+            name: random
+            port:
+              number: 18000  #random port for 503 error code
+      - path:  /users/list
+        pathType: Prefix
+        backend:
+          service:
+            name: random
+            port:
+              number: 18000  #random port for 503 error code
+      - path: /roles/list
+        pathType: Prefix
+        backend:
+          service:
+            name: random
+            port:
+              number: 18000  #random port for 503 error code
+status:
+  loadBalancer:
+    ingress:
+    - hostname: axxxxxxxxxx-1000000.eu-west-1.elb.amazonaws.com
